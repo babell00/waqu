@@ -1,0 +1,22 @@
+{
+  "name": "waqu",
+  "version": "0.0.1",
+  "description": "TODO",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/babell00/waqu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/babell00/waqu/issues"
+  },
+  "homepage": "https://github.com/babell00/waqu#readme",
+  "dependencies": {
+    "electron": "^2.0.5"
+  }
+}
