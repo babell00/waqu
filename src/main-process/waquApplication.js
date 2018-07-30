@@ -15,5 +15,4 @@ module.exports = class WaquApplication extends EventEmitter {
     super();
     this.waquWindow = new WaquWindow();
   }
-
 }

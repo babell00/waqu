@@ -1,4 +1,4 @@
-const {BrowserWindow, app} = require('electron');
+const {app, BrowserWindow, globalShortcut} = require('electron');
 const {EventEmitter} = require('events')
 const url = require('url');
 const path = require('path');
@@ -20,8 +20,12 @@ module.exports = class WaquWindow extends EventEmitter {
     };
 
     this.browserWindow = new BrowserWindow(options);
+
     //Only for debuging
-    this.browserWindow.webContents.openDevTools()
+    globalShortcut.register('CommandOrControl+X', () => {
+     console.log('openning debuger');
+     this.browserWindow.webContents.openDevTools()
+   })
 
     this.browserWindow.loadURL(
       url.format({

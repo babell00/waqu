@@ -1,4 +1,4 @@
-const {app} = require('electron');
+const {app, globalShortcut} = require('electron');
 const path = require('path');
 module.exports = function start(){
 
@@ -32,6 +32,6 @@ module.exports = function start(){
     const waquApplicationModulePath = path.join(__dirname, 'waquApplication');
     console.log(waquApplicationModulePath);
     const WaquApplication = require(waquApplicationModulePath);
-    WaquApplication.open();
+    WaquApplication.open()
   });
 }
