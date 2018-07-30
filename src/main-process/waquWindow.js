@@ -6,31 +6,25 @@ const path = require('path');
 
 module.exports = class WaquWindow extends EventEmitter {
 
-  constructor(){
+  constructor(delegat){
     super();
+    this.delegat = delegat;
 
     const options = {
-      show: true,
+      show: false,
       title: 'Waqu',
       tabbingIdentifier: 'wacu',
       webPreferences: {
-        backgroundThrottling: !this.isSpec,
+        // backgroundThrottling: !this.isSpec,
         disableBlinkFeatures: 'Auxclick'
       }
     };
 
     this.browserWindow = new BrowserWindow(options);
-    Object.defineProperty(this.browserWindow, 'loadSettingsJSON', {
-      get: () => JSON.stringify(Object.assign({
-        userSettings: !this.isSpec
-          ? this.atomApplication.configFile.get()
-          : null
-      }, this.loadSettings))
-    });
 
     //Only for debuging
     globalShortcut.register('CommandOrControl+X', () => {
-     console.log('openning debuger');
+     console.log('openning debugger');
      this.browserWindow.webContents.openDevTools()
    })
 
