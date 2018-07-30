@@ -32,6 +32,6 @@ module.exports = function start(){
     const waquApplicationModulePath = path.join(__dirname, 'waquApplication');
     console.log(waquApplicationModulePath);
     const WaquApplication = require(waquApplicationModulePath);
-    WaquApplication.open()
+    WaquApplication.open(args)
   });
 }

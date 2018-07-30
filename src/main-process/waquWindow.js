@@ -20,6 +20,13 @@ module.exports = class WaquWindow extends EventEmitter {
     };
 
     this.browserWindow = new BrowserWindow(options);
+    Object.defineProperty(this.browserWindow, 'loadSettingsJSON', {
+      get: () => JSON.stringify(Object.assign({
+        userSettings: !this.isSpec
+          ? this.atomApplication.configFile.get()
+          : null
+      }, this.loadSettings))
+    });
 
     //Only for debuging
     globalShortcut.register('CommandOrControl+X', () => {
