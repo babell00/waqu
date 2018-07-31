@@ -6,12 +6,12 @@ const path = require('path');
 
 module.exports = class WaquWindow extends EventEmitter {
 
-  constructor(delegat){
+  constructor(delegat, settings = {}){
     super();
     this.delegat = delegat;
 
     const options = {
-      show: false,
+      show: true,
       title: 'Waqu',
       tabbingIdentifier: 'wacu',
       webPreferences: {
@@ -24,9 +24,10 @@ module.exports = class WaquWindow extends EventEmitter {
 
     //Only for debuging
     globalShortcut.register('CommandOrControl+X', () => {
-     console.log('openning debugger');
-     this.browserWindow.webContents.openDevTools()
-   })
+      console.log('openning debugger');
+      this.browserWindow.webContents.openDevTools()
+    })
+      this.browserWindow.webContents.openDevTools()
 
     this.browserWindow.loadURL(
       url.format({
@@ -35,5 +36,29 @@ module.exports = class WaquWindow extends EventEmitter {
         slashes: true
       })
     );
+  }
+
+  close () {
+    return this.browserWindow.close()
+  }
+
+  focus () {
+    return this.browserWindow.focus()
+  }
+
+  minimize () {
+    return this.browserWindow.minimize()
+  }
+
+  maximize () {
+    return this.browserWindow.maximize()
+  }
+
+  unmaximize () {
+    return this.browserWindow.unmaximize()
+  }
+
+  restore () {
+    return this.browserWindow.restore()
   }
 }

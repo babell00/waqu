@@ -2,9 +2,10 @@ const {BrowserWindow, Menu, app, dialog, ipcMain, shell, screen} = require('elec
 const {CompositeDisposable, Disposable} = require('event-kit');
 const {EventEmitter} = require('events');
 const os = require('os');
+const path = require('path');
 const WaquWindow = require('./waquWindow');
 const ApplicationMenu = require('./applicationMenu');
-
+const ipcHelpers = require('../ipcHelpers');
 
 module.exports = class WaquApplication extends EventEmitter {
   static open (options) {
@@ -18,12 +19,23 @@ module.exports = class WaquApplication extends EventEmitter {
     this.applicationMenu = new ApplicationMenu();
     this.disposable = new CompositeDisposable();
     this.windowStack = new WindowStack();
-    // this.waquWindow = new WaquWindow();
 
 
     //Maybe in the future
     //this.setupDockMenu ();
     this.handleEvents();
+
+    this.openWindow();
+  }
+
+  openWindow(){
+    const window = new WaquWindow(this, {});
+    this.addWindow(window)
+    window.focus()
+  }
+
+  addWindow (window) {
+    this.windowStack.addWindow(window);
   }
 
   setupDockMenu () {
@@ -34,26 +46,13 @@ module.exports = class WaquApplication extends EventEmitter {
     }
   }
 
-  handleEvents () {
-    this.disposable.add(ipcHelpers.on(ipcMain, 'open', (event, options) => {
-      const window = this.atomWindowForEvent(event);
-      if (options) {
-        if (typeof options.pathsToOpen === 'string') {
-          options.pathsToOpen = [options.pathsToOpen];
-        }
-
-        if (options.pathsToOpen && options.pathsToOpen.length > 0) {
-          options.window = window;
-          this.openPaths(options);
-        } else {
-          this.addWindow(new AtomWindow(this, this.fileRecoveryService, options));
-        }
-      } else {
-        this.promptForPathToOpen('all', {window});
-      }
-    }))
+  handleEvents() {
+    this.disposable.add(ipcHelpers.respondTo('show-window', window => window.show()))
   }
 }
+
+
+
 
 class WindowStack {
   constructor (windows = []) {
